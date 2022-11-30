@@ -1,1 +1,134 @@
-hello web
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+	<meta charset="utf-8">
+	<title>晴晴和文文</title>
+	<link rel="shortcut icon" href="images/favicon.ico">
+	<link rel="bookmark" href="images/favicon.ico">  
+	<base target="_blank" />
+	<link rel="stylesheet" type="text/css" href="css/swiper.min.css">
+	<link rel="stylesheet" type="text/css" href="css/style.css">
+
+	<script type="text/javascript" src="js/jquery.js"></script>
+
+	<!-- 下雪-->
+	<script type="text/javascript" src="js/jq.snow.js"></script>
+</head>
+
+<body>
+
+	<audio preload autoplay loop mute id="ad_bg">
+		<source src="audio/bg.mp3" type="audio/mpeg">
+		<embed height="50" width="100" src="audio/bg.mp3">
+	</audio>
+
+	<!-- snow -->
+	<script>
+		$(function () {
+			$.fn.snow({
+				minSize: 5,		//雪花的最小尺寸
+				maxSize: 50, 	//雪花的最大尺寸
+				newOn: 150		//雪花出现的频率 这个数值越小雪花越多
+			});
+		});
+	</script>
+
+	<!-- Swiper -->
+	<section class="pc-banner">
+		<div class="swiper-container">
+			<div class="swiper-wrapper">
+				<div class="swiper-slide swiper-slide-center none-effect">
+					<a href="meet100day/index.html"><img src="images/meet100day.jpg"></a>
+				</div>
+				<div class="swiper-slide"><a href="coming_soon.html"><img src="images/coming_soon.jpg"></a></div>
+			</div>
+		</div>
+
+		<div class="swiper-pagination"></div>
+		<div class="button">
+			<div class="swiper-button-prev"></div>
+			<div class="swiper-button-next"></div>
+		</div>
+	</section>
+	<!-- <div class="describe">加载较慢 | 请耐心等待~</div> -->
+	<div class="timer">
+		Meet for <b id="d"></b> Days <b id="h"></b> Hours <b id="m"></b> Minutes <b id="s"></b> Seconds
+	</div>
+
+	<!-- Swiper JS -->
+	<script src="js/swiper.min.js"></script>
+	<!-- Initialize Swiper -->
+	<script>
+		var toggleSoundId = undefined;
+
+		window.onload = function () {
+			var swiper = new Swiper('.swiper-container', {
+				autoplay: 3000,	//是否自动滚动
+				speed: 1000,		//滚动速速
+				autoplayDisableOnInteraction: false,
+				loop: true,
+				centeredSlides: true,
+				slidesPerView: 2,//当前选中
+				pagination: '.swiper-pagination',
+				paginationClickable: true,
+				prevButton: '.swiper-button-prev',//左右切换
+				nextButton: '.swiper-button-next',//左右切换
+				onInit: function (swiper) {		 //当前选中 状态
+					swiper.slides[2].className = "swiper-slide swiper-slide-active";//第一次打开不要动画
+				},
+				breakpoints: {
+					668: {
+						slidesPerView: 1,
+					}
+				}
+			});
+
+			// audio
+			toggleSoundId = setInterval("toggleSound()", 1000);
+		}
+
+		function toggleSound() {
+			var music = document.getElementById("ad_bg");
+			if (music.paused) {
+				music.paused = false;
+				music.play();
+			} else {
+				if (toggleSoundId != null && toggleSoundId != undefined) {
+					clearInterval(toggleSoundId)
+					toggleSoundId = null;
+				}
+			}
+		}
+	</script>
+
+	<script>
+		function timer() {
+			var start = new Date(2022, 7, 27);
+			var t = new Date() - start;
+			var h = ~~(t / 1000 / 60 / 60 % 24);
+			if (h < 10) {
+				h = "0" + h;
+			}
+			var m = ~~(t / 1000 / 60 % 60);
+			if (m < 10) {
+				m = "0" + m;
+			}
+
+			var s = ~~(t / 1000 % 60);
+			if (s < 10) {
+				s = "0" + s;
+			}
+			d = ~~(t / 1000 / 60 / 60 / 24);
+
+			document.getElementById('d').innerHTML = d;
+			document.getElementById('h').innerHTML = h;
+			document.getElementById('m').innerHTML = m;
+			document.getElementById('s').innerHTML = s;
+		}
+		timer();
+		setInterval(timer, 1000);
+	</script>
+</body>
+
+</html>
